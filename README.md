@@ -29,6 +29,15 @@ Template.book.rendered = ->  # and we render the typeaheads and the date pickers
     makeRendered @, 'DD-MM-YYYY', 'DD-MM-YYYY HH:mm'    
 ```
 
+And in the server:
+
+```coffee
+Meteor.methods
+    authors: (query) -> 
+        aths = authors.find({fullName: {$regex: '.*'+ query + '.*', $options: 'i'}}).fetch()
+        {name: x.fullName, _id:x._id} for x in aths # return in the form {_id:..., name:...}
+```
+
 Let's see the html:
 ```html
     {{#autoForm collection="books" doc=selectedBook id="BookForm" type=typeBookForm validation='submit'}}
@@ -54,6 +63,4 @@ Let's see the html:
   {{/autoForm}}  
 ```
 
-For the typeahead field you have to specify autocomplete="off" spellcheck="off" class="typeahead" data-source="source_author"
-
-For the dates, you can specify class as date, datetime or time, and of course *type='text'* to avoid the native date-picker.
+For the dates, you can specify *class* as *date*, *datetime* or *time*, and of course *type='text'* to avoid the native date-picker.

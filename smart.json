@@ -6,6 +6,8 @@
       "version": "0.1.0",
       "git": "https://github.com/miguelalarcos/autoform-extension.git",
       "packages": {
-        "typeahead":{}
+        "typeahead":{},
+        "moment":{},
+        "bootstrap3-datetimepicker": {}
       }
 }

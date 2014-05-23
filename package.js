@@ -5,6 +5,8 @@ Package.describe({
 Package.on_use(function (api) {
     api.use(['coffeescript'], ['client']);
     api.use('typeahead', ['client']);
+    api.use('moment', 'client');
+    api.use('bootstrap3-datetimepicker', 'client');
 
     api.add_files('autoform-extension.coffee', 'client');
     api.export('AFE', ['client']);
