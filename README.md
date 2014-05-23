@@ -1,4 +1,4 @@
-AutoForm extension
+AutoForm Extension
 ==================
 
 It is an extension for autoform so you can have fields that references other collection, and you can use typeahead to autocomplete the values. Also it takes care of dates.

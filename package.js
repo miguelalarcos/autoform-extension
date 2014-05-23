@@ -3,8 +3,9 @@ Package.describe({
 });
 
 Package.on_use(function (api) {
-    api.use(['coffeescript'], ['client']);
-    api.use('typeahead', ['client']);
+    api.use(['coffeescript', 'underscore'], 'client');
+    api.use('autoform', 'client');
+    api.use('typeahead', 'client');
     api.use('moment', 'client');
     api.use('bootstrap3-datetimepicker', 'client');
 
