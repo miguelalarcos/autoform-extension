@@ -1,0 +1,11 @@
+{
+      "name": "autoform-extension",
+      "description": "An extension for AutoForm that permit you to use typeahead and format dates.",
+      "homepage": "https://github.com/miguelalarcos/autoform-extension",
+      "author": "Miguel Ángel Alarcos <miguel.alarcos@gmail.com>",
+      "version": "0.1.0",
+      "git": "https://github.com/miguelalarcos/autoform-extension.git",
+      "packages": {
+        "typeahead":{}
+      }
+}
