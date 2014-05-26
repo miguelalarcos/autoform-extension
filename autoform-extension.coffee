@@ -3,10 +3,16 @@ tpStore = {} # to store the data received from the server that is for the typeah
 PrepareRealObject = (doc, schema) -> 
     for key, value of schema
         if value.references?
-            val = null
+            if value.strict? and not value.strict
+                val = doc[key]
+            else
+                val = null
             for obj in tpStore[value.tag]
                 if obj.name == doc[key]
-                    val = obj._id
+                    if value.translate? and not value.translate
+                        val = doc[key]
+                    else
+                        val = obj._id
                     break
             doc[key] = val
         else if value.format? and doc[key]
@@ -17,6 +23,8 @@ PrepareFormObject = (doc, schema)->
     if doc
         for key, value of schema
             if value.references?
+                if value.translate? and not value.translate
+                    continue
                 a = value.references.split('.')
                 collection = a[0]
                 displayName = a[1]
@@ -87,8 +95,8 @@ AFE =
         tpStore[tag] = []
         (query, callback)->
             Meteor.call call, query, (error, result)->
-                tpStore[tag] = result                
-                result = (value: it.name for it in result)
+                tpStore[tag] = result or []       
+                result = (value: it.name for it in (result or []))
                 callback result
 
 

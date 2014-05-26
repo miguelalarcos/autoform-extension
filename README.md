@@ -13,6 +13,9 @@ It is an extension for autoform so you can have fields that references other col
 extendForm "BookForm", # you pass the name of the form and the schema extension
     authorId:
         references: 'authors.fullName' # authorId references collection authors, and fullName is the field to display
+        translate: true # false if you don't want the value to be translated to _id. Default is true
+                        # if false, then there is another option: strict: boolean (default is true)
+                        # strict == true means the value must be in the list of the typeahead to be valid
         tag: 'authors' # the tag commented before
     publication:
         format: 'DD-MM-YYYY'
