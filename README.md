@@ -4,26 +4,28 @@ AutoForm Extension
 It is an extension for autoform so you can have fields that references other collection, and you can use typeahead to autocomplete the values. Also it takes care of dates.
 
 ```coffee
+@books = new Meteor.Collection "Books", 
+    schema:
+        title:
+            type: String
+        authorId:
+            type: String
+            references: 'authors.fullName'  # authorId references collection authors, and fullName is the field to display
+            tag: 'authors' # the tag commented below
+            translate: true # false if you don't want the value to be translated to _id. Default is true
+                        # if false, then there is another option: strict: boolean (default is true)
+                        # strict == true means the value must be in the list of the typeahead to be valid
+        publication:
+            type: Date
+            format: 'DD-MM-YYYY'
+
 # we generate the function source for the typeahead authors
-@source_author = tpGenerate 'authors'
+@source_author = tpGenerate 'authors' # there must exist a Meteor method 'authors'
 # if we have a coauthor field (that references authors as well) in the book, we have to define
 # @source_coauthor = @Utils.tpGenerate 'authors', 'coauthor'
 # so the tag coauthor is used to distinguish the two sources of typeahead
 
-extendForm "BookForm", # you pass the name of the form and the schema extension
-    authorId:
-        references: 'authors.fullName' # authorId references collection authors, and fullName is the field to display
-        translate: true # false if you don't want the value to be translated to _id. Default is true
-                        # if false, then there is another option: strict: boolean (default is true)
-                        # strict == true means the value must be in the list of the typeahead to be valid
-        tag: 'authors' # the tag commented before
-    publication:
-        format: 'DD-MM-YYYY'
-
-extendForm "searchForm",
-    publication:
-        format: 'DD-MM-YYYY'
-
+# if we want a local method to be called when the submit button is clicked
 localMethod "searchForm", "searchMethod", (doc)->  
     Session.set "book.publication", doc.publication 
     Session.set "book.title", doc.title
@@ -68,4 +70,4 @@ Let's see the html:
 
 For the dates, you can specify *class* as *date*, *datetime* or *time*, and of course *type='text'* to avoid the native date-picker.
 
-In the server I use *publish-composite* so the author of each book is published with the book.
+In the server I use ```publish-composite``` so the author of each book is published with the book.
