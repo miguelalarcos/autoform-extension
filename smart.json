@@ -3,12 +3,13 @@
       "description": "An extension for AutoForm that permit you to use typeahead and format dates.",
       "homepage": "https://github.com/miguelalarcos/autoform-extension",
       "author": "Miguel Ángel Alarcos <miguel.alarcos@gmail.com>",
-      "version": "0.1.1",
+      "version": "0.1.2",
       "git": "https://github.com/miguelalarcos/autoform-extension.git",
       "packages": {
         "autoform":{},
         "typeahead":{},
         "moment":{},
-        "bootstrap3-datetimepicker": {}
+        "bootstrap3-datetimepicker": {},
+        "simple-schema": {}
       }
 }

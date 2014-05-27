@@ -1,3 +1,9 @@
+AutoForm.addHooks null, 
+    docToForm: (doc, schema, formId) ->
+        PrepareFormObject doc, schema._schema
+    formToDoc: (doc, schema, formId) ->
+        PrepareRealObject doc, schema._schema
+
 tpStore = {} # to store the data received from the server that is for the typeaheads
 
 PrepareRealObject = (doc, schema) -> 
@@ -44,27 +50,7 @@ PrepareFormObject = (doc, schema)->
 
 
 AFE =
-
-    # set the docToForm and formToDoc hooks:
-    # when an id that references other collection: display de field of the other collection.
-    # Example: authorId :
-    #             references: 'authors.fullName' # where authors is the collection an fullName the field to display
-    # reverse when obtaining the object from the form
-    # idem with dates: when a date is received it is converted to string according to a format
-    # reverse when obtaining the object from the form
-    extendForm : (form, schema) ->
-        dct = {}
-        dct[form] = 
-            docToForm: (doc) ->
-                PrepareFormObject doc, schema 
-            formToDoc: (doc) ->
-                PrepareRealObject doc, schema
-        
-        AutoForm.hooks dct
-     
-    # after you have called extendForm, you can do something like
-    # localMethod "searchForm", "searchMethod", (doc)-> console.log doc    
-    # this is for forms type method        
+            
     localMethod : (form, method, func) ->            
         dct_2 = {}
         dct_2[method] = (doc) ->
@@ -89,7 +75,7 @@ AFE =
 
     # you have to call this function to obtain the source function typeahead can use
     tpGenerate : (call, tag)-> # call is the Meteor call name in the server, and tag is optional
-                               # tag is useful when you have to typeaheads with the same source
+                               # tag is useful when you have two typeaheads with the same source
         if tag is undefined
             tag = call 
         tpStore[tag] = []
