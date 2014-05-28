@@ -11,19 +11,19 @@ It is an extension for autoform so you can have fields that references other col
         authorId:
             type: String
             references: 'authors.fullName'  # authorId references collection authors, and fullName is the field to display
-            tag: 'authors' # the tag commented below
-            translate: true # false if you don't want the value to be translated to _id. Default is true
-                        # if false, then there is another option: strict: boolean (default is true)
-                        # strict == true means the value must be in the list of the typeahead to be valid
+            typeahead: 'authors' # the tag commented below
+        coauthor:
+            type: String
+            typeahead: 'coauthors' # without references, the value will not be traslated. For example, 'Dennet' is stored in field coauthor and not an _id
+            strict: true # means that the value to be stored must be in the list of the typeahead
         publication:
             type: Date
             format: 'DD-MM-YYYY'
 
 # we generate the function source for the typeahead authors
-@source_author = tpGenerate 'authors' # there must exist a Meteor method 'authors'
-# if we have a coauthor field (that references authors as well) in the book, we have to define
-# @source_coauthor = @Utils.tpGenerate 'authors', 'coauthor'
-# so the tag coauthor is used to distinguish the two sources of typeahead
+@source_author = tpGenerate 'authors' # there must exist a Meteor method 'authors'. It is the same than @source_author = tpGenerate 'authors', 'authors'
+
+@source_coauthor = @Utils.tpGenerate 'authors', 'coauthors' # we use the same Meteor method 'authors' but a different typeahead (tagged 'coauthors')
 
 # if we want a local method to be called when the submit button is clicked
 localMethod "searchForm", "searchMethod", (doc)->  
@@ -40,7 +40,8 @@ And in the server:
 Meteor.methods
     authors: (query) -> 
         aths = authors.find({fullName: {$regex: '.*'+ query + '.*', $options: 'i'}}).fetch()
-        {name: x.fullName, _id:x._id} for x in aths # return in the form {_id:..., name:...}
+        {name: x.fullName, _id:x._id} for x in aths 
+        # return in the form {_id:..., name:...}
 ```
 
 Let's see the html:
@@ -49,7 +50,8 @@ Let's see the html:
     <fieldset>    
         <legend>Register and modify books</legend>    
         {{> afQuickField name='title'}}        
-        {{> afQuickField name='authorId' autocomplete="off" spellcheck="off" class="typeahead" data-source="source_author"}}        
+        {{> afQuickField name='authorId' autocomplete="off" spellcheck="off" class="typeahead" data-source="source_author"}}   
+        {{> afQuickField name='coauthor' autocomplete="off" spellcheck="off" class="typeahead" data-source="source_coauthor"}}        
         {{> afQuickField name='publication' type='text' class="date"}}
     </fieldset>
     <button type="submit" class="btn btn-primary">Save</button>

@@ -1,0 +1,19 @@
+<body>
+{{> form}}
+</body>
+
+<template name='form'>
+{{#autoForm collection="items" id="ItemForm" doc=doc type='insert' validation='submit'}}
+    <fieldset>    
+        <legend>Form</legend>       
+        {{> afQuickField name='field1_id' autocomplete="off" spellcheck="off" class="typeahead" data-source="source_field1"}}
+        {{> afQuickField name='field2' autocomplete="off" spellcheck="off" class="typeahead" data-source="source_field2"}}
+        {{> afQuickField name='field3' autocomplete="off" spellcheck="off" class="typeahead" data-source="source_field3"}}
+        <!--{{> afQuickField name='date' type='text' class="date"}}
+        {{> afQuickField name='datetime' type='text' class="datetime"}}
+        {{> afQuickField name='time' type='text' class="time"}}
+        -->
+    </fieldset>
+    <button type="submit" class="btn btn-primary">Save</button>
+{{/autoForm}}
+</template>

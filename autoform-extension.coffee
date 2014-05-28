@@ -9,18 +9,20 @@ tpStore = {} # to store the data received from the server that is for the typeah
 PrepareRealObject = (doc, schema) -> 
     for key, value of schema
         if value.references?
-            if value.strict? and not value.strict
-                val = doc[key]
-            else
-                val = null
-            for obj in tpStore[value.tag]
+            val = null
+            for obj in tpStore[value.typeahead]
                 if obj.name == doc[key]
-                    if value.translate? and not value.translate
-                        val = doc[key]
-                    else
-                        val = obj._id
+                    val = obj._id
                     break
             doc[key] = val
+        else if value.typeahead?
+            if value.strict? and value.strict
+                val = null
+                for obj in tpStore[value.typeahead]
+                    if obj.name == doc[key]
+                        val = doc[key]
+                        break
+                doc[key] = val
         else if value.format? and doc[key]
             doc[key] = moment(doc[key], value.format).toDate()
     doc
@@ -29,8 +31,6 @@ PrepareFormObject = (doc, schema)->
     if doc
         for key, value of schema
             if value.references?
-                if value.translate? and not value.translate
-                    continue
                 a = value.references.split('.')
                 collection = a[0]
                 displayName = a[1]
@@ -40,7 +40,10 @@ PrepareFormObject = (doc, schema)->
                     if _.isFunction(toDisplay)
                         toDisplay = toDisplay.apply(y)
                     doc[key] = toDisplay
-                    tpStore[value.tag] = [{_id: y._id, name: toDisplay}]
+                    tpStore[value.typeahead] = [{_id: y._id, name: toDisplay}]
+            else if value.typeahead?
+                if value.strict? and value.strict
+                    tpStore[value.typeahead] = [{_id: '', name: doc[key]}]
             else if value.format? and doc[key]
                 doc[key] = moment(doc[key]).format(value.format)    
         return doc
@@ -50,7 +53,9 @@ PrepareFormObject = (doc, schema)->
 
 
 AFE =
-            
+    _PrepareFormObject: PrepareFormObject
+    _PrepareRealObject: PrepareRealObject
+
     localMethod : (form, method, func) ->            
         dct_2 = {}
         dct_2[method] = (doc) ->
