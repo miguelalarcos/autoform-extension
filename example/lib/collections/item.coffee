@@ -12,6 +12,10 @@
             type: String
             typeahead: 'authors3'
             strict: false
+        field4:
+            type: [String]
+            selectize: 'coauthors'
+            strict: true
         date:
             type: Date
             format: 'DD-MM-YYYY'

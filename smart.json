@@ -8,6 +8,7 @@
       "packages": {
         "autoform":{},
         "typeahead":{},
+        "selectize":{},
         "moment":{},
         "bootstrap3-datetimepicker": {},
         "simple-schema": {}

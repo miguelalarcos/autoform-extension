@@ -23,6 +23,8 @@ PrepareRealObject = (doc, schema) ->
                         val = doc[key]
                         break
                 doc[key] = val
+        else if value.selectize?
+            doc[key] = doc[key].split(',')
         else if value.format? and doc[key]
             doc[key] = moment(doc[key], value.format).toDate()
     doc
@@ -44,6 +46,8 @@ PrepareFormObject = (doc, schema)->
             else if value.typeahead?
                 if value.strict? and value.strict
                     tpStore[value.typeahead] = [{_id: '', name: doc[key]}]
+            else if value.selectize?
+                doc[key] = doc[key].join()
             else if value.format? and doc[key]
                 doc[key] = moment(doc[key]).format(value.format)    
         return doc
@@ -71,6 +75,17 @@ AFE =
     makeRendered : (t, dateformat, datetimeformat)->
         t.findAll('.typeahead').each ->
             Meteor.typeahead @, window[$(@).attr("data-source")]
+        t.findAll('.selectize').each ->
+            $(@).selectize
+                delimiter: ','
+                load: window[$(@).attr('data-source')]
+                create: false
+                valueField: 'name'
+                labelField: 'name'
+                searchField: 'name'
+                render: 
+                    option: (item, escape)->
+                        '<div>'+ escape(item.name) + '</div>'
         t.findAll('.date').each ->
             $(@).datetimepicker(pickTime: false, format: dateformat)
         t.findAll('.datetime').each ->
@@ -88,6 +103,11 @@ AFE =
             Meteor.call call, query, (error, result)->
                 tpStore[tag] = result or []       
                 result = (value: it.name for it in (result or []))
+                callback result
+
+    selectizeGenerate: (call)->
+        (query, callback)->
+            Meteor.call call, query, (error, result)->
                 callback result
 
 

@@ -7,6 +7,7 @@ Package.on_use(function (api) {
     api.use(['coffeescript', 'underscore', 'check'], ['client', 'server']);
     api.use('autoform', 'client');
     api.use('typeahead', 'client');
+    api.use('selectize', 'client');
     api.use('moment', 'client');
     api.use('bootstrap3-datetimepicker', 'client');
     api.use('simple-schema', ['client', 'server']);
