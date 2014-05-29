@@ -1,7 +1,10 @@
 {
   "packages": {
     "autoform": {},
-    "autoform-extension": {},
+    "autoform-extension": {
+        "git":"https://github.com/miguelalarcos/autoform-extension.git",
+        "branch":"selectize"
+        },
     "bootstrap-3": {}
   }
 }
