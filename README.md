@@ -3,6 +3,8 @@ AutoForm Extension
 
 It is an extension for autoform so you can have fields that references other collection, and you can use typeahead to autocomplete the values. Also it takes care of dates.
 
+Note: I'm new at writing tests in Meteor. Any help is welcomed.
+
 ```coffee
 @books = new Meteor.Collection "Books", 
     schema:
