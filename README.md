@@ -18,12 +18,16 @@ Note: I'm new at writing tests in Meteor. Any help is welcomed.
             type: String
             typeahead: 'coauthors' # without references, the value will not be traslated. For example, 'Dennet' is stored in field coauthor and not an _id
             strict: true # means that the value to be stored must be in the list of the typeahead
+        #coauthor:  # this is another option if you want to use the selectize widget
+        #    type: [String]
+        #    selectize: true 
         publication:
             type: Date
             format: 'DD-MM-YYYY'
 
 # we generate the function source for the typeahead authors
 @source_author = tpGenerate 'authors' # there must exist a Meteor method 'authors'. It is the same than @source_author = tpGenerate 'authors', 'authors'
+#@source_coauthors = selectizeGenerate 'authors'
 
 @source_coauthor = @Utils.tpGenerate 'authors', 'coauthors' # we use the same Meteor method 'authors' but a different typeahead (tagged 'coauthors')
 

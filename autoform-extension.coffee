@@ -23,7 +23,7 @@ PrepareRealObject = (doc, schema) ->
                         val = doc[key]
                         break
                 doc[key] = val
-        else if value.selectize?
+        else if value.selectize? and doc[key]
             doc[key] = doc[key].split(',')
         else if value.format? and doc[key]
             doc[key] = moment(doc[key], value.format).toDate()

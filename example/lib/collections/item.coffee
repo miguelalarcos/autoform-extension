@@ -14,8 +14,7 @@
             strict: false
         field4:
             type: [String]
-            selectize: 'coauthors'
-            strict: true
+            selectize: true
         date:
             type: Date
             format: 'DD-MM-YYYY'
