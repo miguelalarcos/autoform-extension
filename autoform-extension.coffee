@@ -23,8 +23,11 @@ PrepareRealObject = (doc, schema) ->
                         val = doc[key]
                         break
                 doc[key] = val
+        else if value.tags? and doc[key]
+            doc[key] = doc[key].split(',')
         else if value.format? and doc[key]
             doc[key] = moment(doc[key], value.format).toDate()
+    console.log doc
     doc
     
 PrepareFormObject = (doc, schema)->
@@ -49,7 +52,23 @@ PrepareFormObject = (doc, schema)->
         return doc
     else
         null
-    
+
+#deleted = {}
+tagNames = {}
+tagGenerate = (idForm, tag)->
+    Session.set tag, []
+    #deleted[tag] = []
+    if tagNames[idForm]?
+        tagNames[idForm].push tag
+    else
+        tagNames[idForm] = [tag]
+
+AutoForm.addHooks null,
+    after: 
+        insert: (error, result, template)->
+            idForm = $(template.find('form')).attr('id')
+            for tn in tagNames[idForm]
+                Session.set tn, []    
 
 
 AFE =
@@ -71,6 +90,8 @@ AFE =
     makeRendered : (t, dateformat, datetimeformat)->
         t.findAll('.typeahead').each ->
             Meteor.typeahead @, window[$(@).attr("data-source")]
+        t.findAll('.tagx').each ->
+            tagGenerate $(t.find('form')).attr('id'), $(@).attr('tagName')
         t.findAll('.date').each ->
             $(@).datetimepicker(pickTime: false, format: dateformat)
         t.findAll('.datetime').each ->

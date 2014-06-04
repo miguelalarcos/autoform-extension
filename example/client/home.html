@@ -3,16 +3,22 @@
 </body>
 
 <template name='form'>
-{{#autoForm collection="items" id="ItemForm" type='insert' validation='submit'}}
+{{#autoForm collection="items" id="ItemForm" doc=doc type=type validation='submit'}}
     <fieldset>    
         <legend>Form</legend>       
         {{> afQuickField name='field1_id' autocomplete="off" spellcheck="off" class="typeahead" data-source="source_field1"}}
         {{> afQuickField name='field2' autocomplete="off" spellcheck="off" class="typeahead" data-source="source_field2"}}
         {{> afQuickField name='field3' autocomplete="off" spellcheck="off" class="typeahead" data-source="source_field3"}}
+        {{> afFieldLabel name='field4'}}
+        {{> afFieldInput name='field4' tagName='field4' autocomplete="off" spellcheck="off" template='tags'}}
+        {{afFieldMessage name='field4'}}
         {{> afQuickField name='date' type='text' class="date"}}
         {{> afQuickField name='datetime' type='text' class="datetime"}}
         {{> afQuickField name='time' type='text' class="time"}}
     </fieldset>
     <button type="submit" class="btn btn-primary">Save</button>
 {{/autoForm}}
+{{#each items}}
+    <div class=editable _id={{_id}}>{{_id}}</div>
+{{/each}}
 </template>

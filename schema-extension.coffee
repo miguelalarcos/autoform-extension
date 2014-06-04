@@ -3,6 +3,7 @@ SimpleSchema.extendOptions
     typeahead: Match.Optional String
     strict: Match.Optional Boolean
     format: Match.Optional String
+    tags: Match.Optional Boolean
 
 window = @
 

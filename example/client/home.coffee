@@ -8,3 +8,15 @@ tpGenerate = AFE.tpGenerate
 Template.form.rendered = ->
     makeRendered @, 'DD-MM-YYYY', 'DD-MM-YYYY HH:mm'
 
+
+Session.set 'idDoc', null
+items = @items
+Template.form.helpers
+    type: -> if Session.get 'idDoc' is null then 'insert' else 'update'
+    doc: -> items.findOne Session.get 'idDoc'
+    items: -> items.find()
+
+Template.form.events
+    'click .editable': (e,t)->
+        _id = $(e.target).attr('_id')
+        Session.set 'idDoc', _id

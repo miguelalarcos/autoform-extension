@@ -75,3 +75,21 @@ Let's see the html:
 For the dates, you can specify *class* as *date*, *datetime* or *time*, and of course *type='text'* to avoid the native date-picker.
 
 In the server I use ```publish-composite``` so the author of each book is published with the book.
+
+---
+
+A tag system has been added:
+
+```coffee
+field4:
+    type: [String]
+    tags: true
+```
+
+and in the template:
+
+```html
+{{> afFieldInput name='field4' tagName='field4' autocomplete="off" spellcheck="off" template='tags'}}
+```
+
+Note the ```template='tags'``` and the *tagName*, a unique name for every input of type tag.

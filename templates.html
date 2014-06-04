@@ -1,0 +1,8 @@
+<template name='afInput_tags'>
+    <input type='text' class='taggin form-control' >
+    <input type='hidden' tagName='{{this.atts.tagName}}' value="{{this.value}}" class='tagx' data-schema-key={{this.name}}>
+    {{setInitialValue this.atts.tagName this.value}}
+    {{#each tags this.atts.tagName}}
+        <span class=tag>{{this}} <span class=closex value="{{this}}">|x</span></span>
+    {{/each}}
+</template>
